@@ -60,13 +60,16 @@ function f4Async(next){
     },3000);
 }
 
+var asyncFns = [f1Async, f2Async, f3Async, f4Async]
 module.exports.runAsync = function(){
-    f1Async(function(){
-        f2Async(function(){
-            f3Async(function(){
-                f4Async();
-            })
-        })
-    });
-
+    function run(fns){
+        var first = fns[0],
+            remaining = fns.slice(1),
+            next = function(){
+                run(remaining);
+            };
+        if (first)
+            first(next);
+    }
+    run(asyncFns);
 }
