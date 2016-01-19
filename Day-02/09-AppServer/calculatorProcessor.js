@@ -16,14 +16,7 @@ module.exports = function(req, res, next){
             op : operation,
             result : result
         };
-        var templateFile = path.join(__dirname, './templates/calculatorResponse.hbs');
-        fs.readFile(templateFile, {encoding : 'utf8'}, function(err, fileContents){
-            var templateFn = handlebars.compile(fileContents);
-            var responseHTML = templateFn(viewModel);
-            res.write(responseHTML);
-            res.end();
-        });
-        
+        res.render('calculatorResponse', viewModel);
     } else {
         next();
     }
